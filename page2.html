@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌宠好物集</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+min-height:100vh;
+background:#fff;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+text-align:center;padding:60px 40px 200px;
+}
+/* ===== About Us ===== */
+#aboutSection{
+max-width:900px;margin:0 auto 50px;
+text-align:left;
+}
+#aboutSection h2{
+font-size:1.8rem;color:#1a1a1a;
+margin-bottom:25px;font-weight:800;
+text-align:center;letter-spacing:4px;
+}
+.about-card{
+background:#f8f8f8;border-radius:12px;
+padding:26px 32px;margin-bottom:18px;
+}
+.about-card h3{
+font-size:1.15rem;color:#1a1a1a;
+margin-bottom:12px;font-weight:700;
+}
+.about-card p{
+font-size:0.95rem;color:#555;
+line-height:1.9;text-align:justify;
+}
+/* ===== 导航 ===== */
+#navBar{
+display:flex;
+justify-content:center;
+gap:48px;
+flex-wrap:wrap;
+margin-bottom:50px;
+}
+.navBtn{
+width:140px;height:140px;
+border-radius:50%;
+border:2px solid #1a1a1a;
+background:#fff;
+color:#1a1a1a;
+font-size:1.2rem;
+font-weight:600;
+cursor:pointer;
+transition:all 0.2s;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+}
+.navBtn:hover{
+background:#1a1a1a;
+color:#fff;
+}
+/* ===== 视频区 ===== */
+#videoWrap{
+max-width:800px;margin:0 auto 60px;
+position:relative;cursor:pointer;
+}
+#introVideo{
+width:100%;display:block;
+border-radius:8px;
+}
+#playOverlay{
+position:absolute;inset:0;
+display:flex;align-items:center;justify-content:center;
+background:rgba(0,0,0,0.04);
+color:#888;font-size:1.5rem;letter-spacing:3px;
+pointer-events:none;border-radius:8px;
+}
+#videoWrap.playing #playOverlay{display:none;}
+/* 全屏适配：铺满画面 */
+#introVideo:fullscreen{object-fit:cover;width:100vw;height:100vh;}
+#introVideo:-webkit-full-screen{object-fit:cover;width:100vw;height:100vh;}
+/* ===== 返回按钮 ===== */
+#returnBtn{
+position:fixed;bottom:20px;right:10px;
+width:180px;height:180px;cursor:pointer;z-index:100;
+border:none;background:none;padding:0;
+border-radius:50%;overflow:hidden;
+}
+#returnBtn img{
+width:100%;height:100%;object-fit:contain;
+pointer-events:none;display:block;
+}
+</style>
+</head>
+<body>
+
+<!-- About Us -->
+<div id="aboutSection">
+<h2>About Us</h2>
+<div class="about-card">
+<h3>项目简介</h3>
+<p>萌宠好物集是数据驱动型新锐宠物用品品牌，依托市场调研选品，主打 ins 极简 + 马卡龙可爱双风格宠物用品；首批上线三大品类：宠物服饰配饰、宠物家具、宠物玩具，全系列产品无甲醛有害材质、带安全质检认证，定价 19~129 元，依托小红书电商 + 微信小程序双渠道运营，靠内容种草、KOL 测评做品牌推广，精准面向追求颜值、安全、性价比的年轻养宠人群。</p>
+</div>
+<div class="about-card">
+<h3>团队介绍</h3>
+<p>本团队由四人野生跨界组队入局宠业，摒弃行业老套路，锚定铲屎官刚需做好物。团队信条：功夫再高，也怕菜刀；IQ 再好，一砖撂倒，踏踏实实做好产品，全心全意为顾客服务。</p>
+</div>
+</div>
+
+<!-- 导航 -->
+<div id="navBar">
+<button class="navBtn" data-page="products.html">产品介绍</button>
+<button class="navBtn" data-page="packages.html">套餐详情</button>
+<button class="navBtn" data-page="register.html">用户注册</button>
+<button class="navBtn" data-page="data.html">数据板块</button>
+</div>
+
+<!-- 视频区 -->
+<div id="videoWrap">
+<video id="introVideo" src="source/video.webm" playsinline preload="auto" title="团队与产品介绍视频" controls disablePictureInPicture></video>
+</div>
+
+<button id="returnBtn" title="返回首页">
+<img src="source/return.png" alt="返回">
+</button>
+
+<script>
+// 导航按钮点击跳转子页面
+document.querySelectorAll('.navBtn').forEach(function(btn){
+btn.addEventListener('click',function(){
+var page=this.getAttribute('data-page');
+if(page) window.location.href=page;
+});
+});
+
+// 视频控制：全屏控件显隐
+var introVideo=document.getElementById('introVideo');
+var clickTimer=null;
+
+document.addEventListener('fullscreenchange',function(){
+if(document.fullscreenElement===introVideo){
+introVideo.removeAttribute('controls');
+}else{
+introVideo.setAttribute('controls','');
+}
+});
+
+introVideo.addEventListener('click',function(){
+if(document.fullscreenElement===introVideo){
+if(clickTimer){clearTimeout(clickTimer);clickTimer=null;return;}
+clickTimer=setTimeout(function(){
+clickTimer=null;
+if(introVideo.hasAttribute('controls')){
+introVideo.removeAttribute('controls');
+}else{
+introVideo.setAttribute('controls','');
+}
+},250);
+}
+});
+
+introVideo.addEventListener('dblclick',function(e){
+e.stopPropagation();
+if(clickTimer){clearTimeout(clickTimer);clickTimer=null;}
+if(document.fullscreenElement){
+document.exitFullscreen();
+}else{
+introVideo.requestFullscreen();
+}
+});
+
+// 返回首页
+document.getElementById('returnBtn').addEventListener('click',function(){
+window.location.href='index.html';
+});
+</script>
+</body>
+</html>

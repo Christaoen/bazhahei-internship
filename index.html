@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌宠好物集</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+min-height:100vh;
+background:#fff;
+font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+overflow:hidden;
+position:relative;
+user-select:none;
+}
+#dogVideo{
+position:absolute;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+display:block;
+max-width:80vw;
+max-height:70vh;
+object-fit:contain;
+background:transparent !important;
+background-color:transparent;
+}
+#actionBtn{
+position:fixed;bottom:120px;right:90px;
+width:180px;height:180px;cursor:pointer;z-index:100;
+border:none;background:none;padding:0;
+border-radius:50%;overflow:hidden;
+}
+#actionBtn img{
+width:100%;height:100%;object-fit:contain;
+pointer-events:none;display:block;
+}
+#bubble{
+position:absolute;display:none;z-index:50;
+width:240px;height:240px;cursor:pointer;
+}
+#bubble img{width:100%;height:100%;object-fit:contain;pointer-events:none;}
+#bubbleText{
+position:absolute;top:50%;left:50%;
+transform:translate(-50%,-50%);
+font-size:1.8rem;color:#1a1a1a;font-weight:700;
+font-family:'Segoe UI','PingFang SC',sans-serif;pointer-events:none;
+text-shadow:0 1px 3px rgba(255,255,255,0.6);
+}
+#titleContainer{
+position:absolute;top:60px;left:50%;
+transform:translateX(-50%);
+text-align:center;display:none;z-index:60;
+pointer-events:none;
+}
+#mainTitle{
+font-size:4rem;color:#1a1a1a;
+letter-spacing:10px;font-weight:900;
+opacity:0;transform:translateY(-20px);
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+}
+#subTitle{
+font-size:1.15rem;color:#444;
+margin-top:20px;opacity:0;
+letter-spacing:3px;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+}
+/* ===== 猫咪眼珠跟随 ===== */
+#s1Wrap,#s2Wrap{
+position:fixed;bottom:0;z-index:35;
+pointer-events:none;
+}
+.cat-wrap .cat-body{width:100%;height:100%;display:block;}
+.eye-socket{
+position:absolute;overflow:hidden;
+width:30px;height:30px;
+border-radius:50%;
+}
+.eye-ball{
+position:absolute;display:block;
+transition:left 0.08s,top 0.08s;
+backface-visibility:hidden;
+}#welcomeTitle{
+position:absolute;top:60px;left:50%;transform:translateX(-50%);
+font-size:3.2rem;font-weight:900;letter-spacing:4px;z-index:70;
+background:linear-gradient(to right,#000,#666);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+font-family:'Segoe UI','PingFang SC',sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div id="welcomeTitle">Welcome to Pet Boutique</div>
+<!-- 仅保留视频标签，初始暂停静音做待机画面 -->
+<video id="dogVideo" src="source/violin.webm"
+playsinline webkit-playsinline muted preload="auto"></video>
+
+<!-- 猫咪眼珠跟随 -->
+<div id="s1Wrap" class="cat-wrap">
+<img src="source/s1.png" class="cat-body" id="s1Body">
+<div class="eye-socket" id="s1LEye"><img src="source/d1.png" class="eye-ball" id="s1L"></div>
+<div class="eye-socket" id="s1REye"><img src="source/d2.png" class="eye-ball" id="s1R"></div>
+</div>
+<div id="s2Wrap" class="cat-wrap">
+<img src="source/s2.png" class="cat-body" id="s2Body">
+<div class="eye-socket" id="s2LEye"><img src="source/c1.png" class="eye-ball" id="s2L"></div>
+<div class="eye-socket" id="s2REye"><img src="source/c2.png" class="eye-ball" id="s2R"></div>
+</div>
+<!-- debug removed -->
+
+<div id="bubble">
+<img src="source/bubble.png" alt="泡泡">
+<span id="bubbleText">click</span>
+</div>
+
+<button id="actionBtn"><img src="source/button.png" alt="互动"></button>
+
+<div id="titleContainer">
+<div id="mainTitle">萌宠好物集</div>
+<div id="subTitle">继续按 Start 或点击页面任意区域，跳转至第二页产品介绍页面</div>
+</div>
+
+<script>
+(function(){
+var btn=document.getElementById('actionBtn');
+var dogVideo=document.getElementById('dogVideo');
+var bubble=document.getElementById('bubble');
+var titleContainer=document.getElementById('titleContainer');
+var mainTitle=document.getElementById('mainTitle');
+var subTitle=document.getElementById('subTitle');
+var welcomeTitle=document.getElementById('welcomeTitle');
+
+var state={started:false,bubbleDone:false,titleReady:false};
+
+// 返回首页后：视频暂停 + 静音（维持初始待机画面）
+dogVideo.pause();
+dogVideo.currentTime=0;
+
+// 无缝循环：播放到11秒归零，消除循环间隙
+dogVideo.addEventListener('timeupdate',function(){
+if(this.currentTime>=11)this.currentTime=0;
+});
+
+function waitGSAP(fn){
+if(typeof gsap!=='undefined'){fn();}
+else{setTimeout(function(){waitGSAP(fn);},80);}
+}
+
+// ===== 点击 Start：解除静音 + 开始播放 =====
+btn.addEventListener('click',function(e){
+welcomeTitle.style.display='none';
+e.stopPropagation();
+if(state.titleReady){
+window.location.replace('page2.html');
+return;
+}
+if(state.started) return;
+state.started=true;
+
+dogVideo.muted=false;
+dogVideo.play()['catch'](function(){});
+
+showBubble();
+});
+
+// ===== 泡泡自动渐现 =====
+function showBubble(){
+state.bubbleDone=true;
+var vRect=dogVideo.getBoundingClientRect();
+var noseX=vRect.left+vRect.width*0.5;
+var noseY=vRect.top+vRect.height*0.18;
+var bw=240,bh=240;
+bubble.style.display='block';
+bubble.style.left=(noseX-bw/2)+'px';
+bubble.style.top=(noseY-bh/2)+'px';
+
+waitGSAP(function(){
+gsap.set(bubble,{scale:1,opacity:0,rotation:0,y:0});
+var targetY=window.innerHeight*0.15;
+var deltaY=targetY-(noseY-bh/2);
+gsap.to(bubble,{
+y:deltaY,opacity:1,duration:2,ease:'power2.out',
+onComplete:function(){
+gsap.to(bubble,{
+y:deltaY+14,duration:2,
+repeat:-1,yoyo:true,ease:'sine.inOut'
+});
+}
+});
+});
+}
+
+// ===== 点击泡泡 → 碎裂 + 显示标题 =====
+bubble.addEventListener('click',function(e){
+e.stopPropagation();
+if(!state.bubbleDone||state.titleReady) return;
+dogVideo.pause();
+dogVideo.currentTime=0;
+waitGSAP(function(){
+gsap.killTweensOf(bubble);
+gsap.to(bubble,{
+scale:2.8,opacity:0,rotation:20,
+duration:0.7,ease:'back.in(3)',
+onComplete:function(){
+bubble.style.display='none';
+gsap.set(bubble,{scale:1,rotation:0,y:0});
+showTitle();
+}
+});
+});
+});
+
+// ===== 标题淡入 =====
+function showTitle(){
+titleContainer.style.display='block';
+waitGSAP(function(){
+gsap.to(mainTitle,{
+opacity:1,y:0,duration:1.2,ease:'power3.out',
+onComplete:function(){
+gsap.to(subTitle,{
+opacity:1,duration:0.9,ease:'power2.out',
+onComplete:function(){state.titleReady=true;}
+});
+}
+});
+});
+}
+
+// ===== 标题出现后跳转 =====
+document.addEventListener('click',function(e){
+if(state.titleReady){
+window.location.replace('page2.html');
+}
+});
+
+// ===== 猫咪眼珠跟随 =====
+var s1Wrap=document.getElementById('s1Wrap');
+var s2Wrap=document.getElementById('s2Wrap');
+var MOVE_R=10;
+var catReady=false;
+var catH,cw;
+
+function initCat(){
+var vh=window.innerHeight;
+catH=Math.min(vh*0.25,160)*2;
+cw=1080*catH/1063;
+var s2Scale=0.9;
+s1Wrap.style.height=catH+'px';
+s1Wrap.style.width=cw+'px';
+s2Wrap.style.height=catH*s2Scale+'px';
+s2Wrap.style.width=cw*s2Scale+'px';
+positionCats();
+setupEyeSockets();
+catReady=true;
+}
+
+function positionCats(){
+var vR=dogVideo.getBoundingClientRect();
+var gap=Math.max(6,window.innerWidth*0.01);
+var s1Off=40;
+var catDown1=36;
+var s2Off=120;
+var catDown2=40;
+s1Wrap.style.bottom='-'+catDown1+'px';
+s2Wrap.style.bottom='-'+catDown2+'px';
+var l1=vR.left-cw-gap-s1Off;
+var l2=vR.right+gap+s2Off;
+var s2w=cw*0.9;
+if(l1<4)l1=4;
+if(l2+s2w>window.innerWidth-4)l2=window.innerWidth-s2w-4;
+s1Wrap.style.left=l1+'px';
+s2Wrap.style.left=l2+'px';
+}
+
+// s1: d1=左眼 pX=0.43|d2=右眼 pX=0.57  拉开间距, Y保持0.48
+// s2: c1=左眼 pX=0.43|c2=右眼 pX=0.57  Y上移至0.44  拉开间距
+var EYE_LAYOUT={
+s1L:{pX:0.43,pY:0.48,sk:'s1LEye',ball:'s1L'},
+s1R:{pX:0.57,pY:0.48,sk:'s1REye',ball:'s1R'},
+s2L:{pX:0.43,pY:0.44,sk:'s2LEye',ball:'s2L'},
+s2R:{pX:0.57,pY:0.44,sk:'s2REye',ball:'s2R'}
+};
+
+function setupEyeSockets(){
+var s2Scale=0.9;
+var keys=['s1L','s1R','s2L','s2R'];
+keys.forEach(function(k){
+var cfg=EYE_LAYOUT[k];
+var sk=document.getElementById(cfg.sk);
+var ball=document.getElementById(cfg.ball);
+cfg.el=ball;
+cfg.socket=sk;
+var cs=k.indexOf('s1')===0?1:s2Scale;
+var sx=cw*cfg.pX*cs;
+var sy=catH*cfg.pY*cs;
+sk.style.left=(sx-15)+'px';
+sk.style.top=(sy-15)+'px';
+var es=k.indexOf('s1')===0?0.5:0.6;
+var bw=cw/1.5*es;
+var bh=catH/1.5*es;
+ball.style.width=bw+'px';
+ball.style.height=bh+'px';
+cfg.ix=-(bw*0.5-15);
+cfg.iy=-(bh*0.5-15);
+ball.style.left=cfg.ix+'px';
+ball.style.top=cfg.iy+'px';
+});
+}
+
+function trackEyes(e){
+if(!catReady)return;
+var mx=e.clientX||0,my=e.clientY||0;
+var keys=['s1L','s1R','s2L','s2R'];
+keys.forEach(function(k){
+var cfg=EYE_LAYOUT[k];
+var r=cfg.socket.getBoundingClientRect();
+var scx=r.left+r.width/2;
+var scy=r.top+r.height/2;
+var dx=mx-scx,dy=my-scy;
+var dist=Math.sqrt(dx*dx+dy*dy);
+var tx,ty;
+if(dist>MOVE_R){
+var a=Math.atan2(dy,dx);
+tx=Math.cos(a)*MOVE_R;
+ty=Math.sin(a)*MOVE_R;
+}else{tx=dx;ty=dy;}
+cfg.el.style.left=(cfg.ix+tx)+'px';
+cfg.el.style.top=(cfg.iy+ty)+'px';
+});
+}
+
+window.addEventListener('mousemove',trackEyes,{passive:true});
+
+function tryInit(){var r=dogVideo.getBoundingClientRect();if(r.width>10&&r.height>10){initCat();}else{setTimeout(tryInit,120);}}
+tryInit();
+
+window.addEventListener('resize',function(){
+if(!catReady)return;
+catH=Math.min(window.innerHeight*0.25,160)*2;
+cw=1080*catH/1063;
+var s2Scale=0.9;
+s1Wrap.style.height=catH+'px';
+s1Wrap.style.width=cw+'px';
+s2Wrap.style.height=catH*s2Scale+'px';
+s2Wrap.style.width=cw*s2Scale+'px';
+positionCats();
+setupEyeSockets();
+});
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌宠好物集 · 套餐详情</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+min-height:100vh;
+background:#fff;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+text-align:center;padding:60px 40px 200px;
+}
+.page-title{
+font-size:2.2rem;color:#1a1a1a;
+margin-bottom:20px;letter-spacing:6px;font-weight:800;
+}
+.page-sub{
+font-size:1rem;color:#888;margin-bottom:50px;
+line-height:1.8;
+}
+/* ===== 套餐卡片 ===== */
+#packageSection{
+max-width:1000px;margin:0 auto;
+display:flex;gap:30px;flex-wrap:wrap;
+justify-content:center;
+}
+.pkg-card{
+flex:1;min-width:260px;max-width:320px;
+background:#fafafa;border-radius:16px;
+padding:36px 28px 32px;
+text-align:center;border:2px solid transparent;
+transition:all 0.25s;
+}
+.pkg-card:hover{border-color:#1a1a1a;transform:translateY(-4px);}
+.pkg-card.featured{
+background:#1a1a1a;color:#fff;
+}
+.pkg-card.featured .pkg-desc{color:#ccc;}
+.pkg-card.featured .pkg-remark{color:#aaa;}
+.pkg-name{
+font-size:1.3rem;font-weight:700;margin-bottom:6px;
+}
+.pkg-price{
+font-size:2rem;font-weight:900;margin:14px 0;
+letter-spacing:2px;
+}
+.pkg-price span{
+font-size:1rem;font-weight:400;opacity:0.7;
+}
+.pkg-desc{
+font-size:0.92rem;color:#555;line-height:1.7;
+margin-bottom:12px;min-height:60px;
+}
+.pkg-items{
+list-style:none;padding:0;margin:16px 0;
+text-align:left;
+}
+.pkg-items li{
+padding:6px 0 6px 20px;
+font-size:0.88rem;color:#666;
+position:relative;line-height:1.5;
+}
+.pkg-items li::before{
+content:'•';position:absolute;left:4px;color:#1a1a1a;
+}
+.pkg-card.featured .pkg-items li::before{color:#fff;}
+.pkg-card.featured .pkg-items li{color:#ccc;}
+.pkg-remark{
+font-size:0.82rem;color:#999;
+margin-top:16px;padding-top:14px;
+border-top:1px solid #eee;line-height:1.5;
+}
+.pkg-card.featured .pkg-remark{border-color:#444;}
+.tag{
+display:inline-block;font-size:0.75rem;
+padding:3px 14px;border-radius:20px;
+background:#eee;color:#555;margin-top:4px;
+}
+.pkg-card.featured .tag{background:#fff;color:#1a1a1a;}
+/* ===== 定价策略说明 ===== */
+#pricingNote{
+max-width:700px;margin:50px auto 0;
+text-align:left;
+}
+#pricingNote h3{
+font-size:1.1rem;color:#1a1a1a;
+margin-bottom:12px;font-weight:700;
+}
+#pricingNote p{
+font-size:0.92rem;color:#666;line-height:1.8;
+}
+/* ===== 返回按钮 ===== */
+#returnBtn{
+position:fixed;bottom:20px;right:10px;
+width:180px;height:180px;cursor:pointer;z-index:100;
+border:none;background:none;padding:0;
+border-radius:50%;overflow:hidden;
+}
+#returnBtn img{
+width:100%;height:100%;object-fit:contain;
+pointer-events:none;display:block;
+}
+</style>
+</head>
+<body>
+
+<h2 class="page-title">套餐详情</h2>
+<p class="page-sub">依托 4P 定价规则设计，品质对标大牌，同品质售价更低</p>
+
+<div id="packageSection">
+
+<div class="pkg-card">
+<div class="pkg-name">入门体验套餐</div>
+<div class="tag">拉新引流</div>
+<div class="pkg-price">¥29.9 <span>起</span></div>
+<div class="pkg-desc">新手试购首选，低成本体验品质宠物用品</div>
+<ul class="pkg-items">
+<li>随机宠物小玩具 × 1</li>
+<li>迷你口水巾 × 1</li>
+<li>适合首次尝鲜用户</li>
+</ul>
+<div class="pkg-remark">定价 19~39 元 · 店铺拉新引流款</div>
+</div>
+
+<div class="pkg-card featured">
+<div class="pkg-name">主力实用套餐</div>
+<div class="tag">店铺主推</div>
+<div class="pkg-price">¥69 <span>起</span></div>
+<div class="pkg-desc">核心盈利套餐，落在用户偏好黄金价位段</div>
+<ul class="pkg-items">
+<li>宠物口水巾 × 1（多配色可选）</li>
+<li>磨牙耐咬玩具 × 1</li>
+<li>满足日常喂养 + 互动需求</li>
+</ul>
+<div class="pkg-remark">定价 49~99 元 · 店铺核心盈利款</div>
+</div>
+
+<div class="pkg-card">
+<div class="pkg-name">轻奢全屋套餐</div>
+<div class="tag">限定联名</div>
+<div class="pkg-price">¥119 <span>起</span></div>
+<div class="pkg-desc">季节限定高端款，塑造品牌调性</div>
+<ul class="pkg-items">
+<li>保暖猫窝 × 1</li>
+<li>智能自动喂食器 × 1</li>
+<li>定制宠物领结 × 1</li>
+</ul>
+<div class="pkg-remark">定价 99~129 元 · 季节限定联名款</div>
+</div>
+
+</div>
+
+<div id="pricingNote">
+<h3>定价策略</h3>
+<p>价格对标大牌 Petkit、Iv San Bernard，同品质售价更低，打造性价比差异化优势。入门款走量拉新、主力款盈利创收、高端款提升品牌调性，三档覆盖不同消费层级。</p>
+</div>
+
+<button id="returnBtn" title="返回">
+<img src="source/return.png" alt="返回">
+</button>
+
+<script>
+document.getElementById('returnBtn').addEventListener('click',function(){
+window.location.href='page2.html';
+});
+</script>
+</body>
+</html>

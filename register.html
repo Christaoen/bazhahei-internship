@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌宠好物集 · 用户注册</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+min-height:100vh;
+background:#fff;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+text-align:center;padding:60px 40px 200px;
+}
+.page-title{
+font-size:2.2rem;color:#1a1a1a;
+margin-bottom:10px;letter-spacing:6px;font-weight:800;
+}
+.page-sub{
+font-size:1rem;color:#888;margin-bottom:40px;
+}
+/* ===== 活动横幅 ===== */
+#promoBanner{
+max-width:560px;margin:0 auto 40px;
+background:#1a1a1a;color:#fff;
+border-radius:12px;padding:20px 28px;
+}
+#promoBanner h3{
+font-size:1.15rem;font-weight:700;margin-bottom:8px;
+}
+#promoBanner p{
+font-size:0.92rem;opacity:0.85;line-height:1.7;
+}
+#promoBanner .highlight{
+color:#ffd200;font-weight:700;
+}
+/* ===== 注册表单 ===== */
+#registerForm{
+max-width:460px;margin:0 auto;
+text-align:left;
+}
+.form-group{
+margin-bottom:22px;
+}
+.form-group label{
+display:block;font-size:0.92rem;color:#1a1a1a;
+margin-bottom:6px;font-weight:600;
+}
+.form-group input,
+.form-group select{
+width:100%;padding:12px 16px;
+border:2px solid #ddd;border-radius:8px;
+font-size:0.95rem;outline:none;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+transition:border-color 0.2s;
+background:#fff;
+}
+.form-group input:focus,
+.form-group select:focus{
+border-color:#1a1a1a;
+}
+.form-group select{
+appearance:none;-webkit-appearance:none;
+cursor:pointer;
+}
+#submitBtn{
+width:100%;padding:14px;
+background:#1a1a1a;color:#fff;
+border:none;border-radius:8px;
+font-size:1.05rem;font-weight:700;
+cursor:pointer;transition:opacity 0.2s;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+letter-spacing:4px;
+}
+#submitBtn:hover{opacity:0.85;}
+#formSuccess{
+display:none;max-width:460px;margin:30px auto 0;
+padding:30px;background:#f0f8f0;border-radius:12px;
+}
+#formSuccess p{
+font-size:1.05rem;color:#2a7a2a;line-height:1.8;
+}
+/* ===== 返回按钮 ===== */
+#returnBtn{
+position:fixed;bottom:20px;right:10px;
+width:180px;height:180px;cursor:pointer;z-index:100;
+border:none;background:none;padding:0;
+border-radius:50%;overflow:hidden;
+}
+#returnBtn img{
+width:100%;height:100%;object-fit:contain;
+pointer-events:none;display:block;
+}
+</style>
+</head>
+<body>
+
+<h2 class="page-title">用户注册</h2>
+<p class="page-sub">加入萌宠好物集会员，享专属福利</p>
+
+<div id="promoBanner">
+<h3>开业限时活动</h3>
+<p>前 <span class="highlight">50 名</span> 注册用户购品享 <span class="highlight">8 折</span> 福利！<br>
+注册即成为店铺会员，第一时间获取新品上架 &amp; 专属优惠信息。</p>
+</div>
+
+<form id="registerForm" onsubmit="return handleSubmit(event)">
+<div class="form-group">
+<label for="name">姓名</label>
+<input type="text" id="name" placeholder="请输入您的姓名" required>
+</div>
+<div class="form-group">
+<label for="phone">手机号</label>
+<input type="tel" id="phone" placeholder="请输入手机号码" pattern="[0-9]{11}" required>
+</div>
+<div class="form-group">
+<label for="petType">宠物类型</label>
+<select id="petType" required>
+<option value="">请选择</option>
+<option value="cat">猫</option>
+<option value="dog">狗</option>
+<option value="both">猫 &amp; 狗</option>
+<option value="other">其他</option>
+</select>
+</div>
+<button type="submit" id="submitBtn">立即注册</button>
+</form>
+
+<div id="formSuccess">
+<p>✅ 注册成功！<br>感谢您加入萌宠好物集，<br>开业福利将于活动开始前通过短信通知您。</p>
+</div>
+
+<button id="returnBtn" title="返回">
+<img src="source/return.png" alt="返回">
+</button>
+
+<script>
+function handleSubmit(e){
+e.preventDefault();
+document.getElementById('registerForm').style.display='none';
+document.getElementById('formSuccess').style.display='block';
+return false;
+}
+
+document.getElementById('returnBtn').addEventListener('click',function(){
+window.location.href='page2.html';
+});
+</script>
+</body>
+</html>

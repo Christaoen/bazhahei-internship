@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌宠好物集 · 产品介绍</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+min-height:100vh;
+background:#fff;
+font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+text-align:center;padding:60px 40px 200px;
+}
+/* ===== 页面标题 ===== */
+.page-title{
+font-size:2.2rem;color:#1a1a1a;
+margin-bottom:50px;letter-spacing:6px;font-weight:800;
+}
+/* ===== 产品区 ===== */
+#productSection{
+max-width:1000px;margin:0 auto;
+padding-top:10px;
+}
+.product{
+display:flex;align-items:center;gap:30px;
+margin-bottom:60px;text-align:left;
+}
+.product-text h3{
+font-size:1.5rem;color:#1a1a1a;
+margin-bottom:12px;font-weight:700;
+}
+.product-text p{
+font-size:1rem;color:#555;line-height:1.8;
+}
+.product-text{flex:1;min-width:200px;}
+.product-images{
+display:flex;gap:16px;flex:1;min-width:200px;
+}
+.product-images img{
+width:100%;height:auto;border-radius:8px;
+object-fit:cover;
+}
+.product-images.half img{width:calc(50% - 8px);}
+.product:nth-child(even){flex-direction:row-reverse;}
+.product-bib{
+display:flex;align-items:center;gap:16px;
+margin-bottom:60px;text-align:left;
+}
+.product-bib .product-images{flex:1;min-width:0;}
+.product-bib .product-text{
+flex:0 0 auto;max-width:320px;padding:0 10px;
+text-align:center;
+}
+/* 补充描述 */
+.prod-detail{
+font-size:0.9rem;color:#777;line-height:1.7;
+margin-top:8px;padding-top:8px;border-top:1px dashed #eee;
+}
+.prod-price{
+display:inline-block;background:#1a1a1a;color:#fff;
+font-size:0.85rem;padding:2px 12px;border-radius:12px;
+margin-top:6px;font-weight:600;
+}
+/* ===== 返回按钮 ===== */
+#returnBtn{
+position:fixed;bottom:20px;right:10px;
+width:180px;height:180px;cursor:pointer;z-index:100;
+border:none;background:none;padding:0;
+border-radius:50%;overflow:hidden;
+}
+#returnBtn img{
+width:100%;height:100%;object-fit:contain;
+pointer-events:none;display:block;
+}
+</style>
+</head>
+<body>
+
+<div id="productSection">
+<h2 class="page-title">产品介绍</h2>
+
+<!-- 口水巾 -->
+<div class="product-bib">
+<div class="product-images"><img src="source/pic (1).jpg" alt="口水巾1"></div>
+<div class="product-text">
+<h3>宠物口水巾</h3>
+<p>宠物口水巾性价比高，项圈尺寸可自由调节，拆装替换便捷，日常喂食、喝水防脏实用性强。</p>
+<div class="prod-detail">
+ins &amp; 马卡龙双配色可选 · 食品级无甲醛面料 · 可调式脖圈设计<br>
+售价 25~68 元 · 店铺引流主力单品
+</div>
+<div class="prod-price">¥25-68</div>
+</div>
+<div class="product-images"><img src="source/pic (4).jpg" alt="口水巾2"></div>
+</div>
+
+<!-- 宠物玩具 -->
+<div class="product">
+<div class="product-text">
+<h3>宠物磨牙玩具</h3>
+<p>材质安全、耐啃咬，适合猫狗玩耍。</p>
+<div class="prod-detail">
+安全环保原料 · 适配猫狗日常磨牙互动 · 用户选购 TOP1 品类<br>
+需求调研占比 29.03% · 售价 19~59 元 · 店铺入门引流款
+</div>
+<div class="prod-price">¥19-59</div>
+</div>
+<div class="product-images"><img src="source/pic (2).jpg" alt="宠物玩具"></div>
+</div>
+
+<!-- 自动喂食器 -->
+<div class="product">
+<div class="product-text">
+<h3>智能自动喂食器</h3>
+<p>定时出粮、解放人工喂食、智能控量，为宠物提供健康规律的饮食体验。</p>
+<div class="prod-detail">
+中高端家具配套产品 · 定时定量出粮 · 解放上班族人工投喂<br>
+搭配猫窝成套选购性价比更高
+</div>
+</div>
+<div class="product-images"><img src="source/pic (3).jpg" alt="自动喂食器"></div>
+</div>
+
+<!-- 猫窝 -->
+<div class="product">
+<div class="product-text">
+<h3>保暖猫窝</h3>
+<p>保暖透气、空间宽敞，适配各类猫咪休憩，给爱宠一个温暖舒适的小窝。</p>
+<div class="prod-detail">
+透气棉料封闭式保暖空间 · ins 简约风高颜值 · 拍照出片<br>
+宠物家具类目核心爆款（调研占比 19.35%）· 售价 49~99 元
+</div>
+<div class="prod-price">¥49-99</div>
+</div>
+<div class="product-images"><img src="source/pic (5).jpg" alt="猫窝"></div>
+</div>
+</div>
+
+<button id="returnBtn" title="返回">
+<img src="source/return.png" alt="返回">
+</button>
+
+<script>
+document.getElementById('returnBtn').addEventListener('click',function(){
+window.location.href='page2.html';
+});
+</script>
+</body>
+</html>
