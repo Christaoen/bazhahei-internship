@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>萌宠好物集</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
@@ -28,8 +29,8 @@ background:transparent !important;
 background-color:transparent;
 }
 #actionBtn{
-position:fixed;bottom:120px;right:90px;
-width:180px;height:180px;cursor:pointer;z-index:100;
+position:fixed;bottom:11vh;right:4.7vw;
+width:9.4vw;height:9.4vw;cursor:pointer;z-index:100;
 border:none;background:none;padding:0;
 border-radius:50%;overflow:hidden;
 }
@@ -39,32 +40,32 @@ pointer-events:none;display:block;
 }
 #bubble{
 position:absolute;display:none;z-index:50;
-width:240px;height:240px;cursor:pointer;
+width:25vw;height:25vw;cursor:pointer;
 }
 #bubble img{width:100%;height:100%;object-fit:contain;pointer-events:none;}
 #bubbleText{
 position:absolute;top:50%;left:50%;
 transform:translate(-50%,-50%);
-font-size:1.8rem;color:#1a1a1a;font-weight:700;
+font-size:3vw;color:#1a1a1a;font-weight:700;
 font-family:'Segoe UI','PingFang SC',sans-serif;pointer-events:none;
-text-shadow:0 1px 3px rgba(255,255,255,0.6);
+text-shadow:0 0.05vw 0.16vw rgba(255,255,255,0.6);
 }
 #titleContainer{
-position:absolute;top:60px;left:50%;
+position:absolute;top:5.6vh;left:50%;
 transform:translateX(-50%);
 text-align:center;display:none;z-index:60;
 pointer-events:none;
 }
 #mainTitle{
-font-size:4rem;color:#1a1a1a;
-letter-spacing:10px;font-weight:900;
-opacity:0;transform:translateY(-20px);
+font-size:3.3vw;color:#1a1a1a;
+letter-spacing:0.52vw;font-weight:900;
+opacity:0;transform:translateY(-1.9vh);
 font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
 }
 #subTitle{
-font-size:1.15rem;color:#444;
-margin-top:20px;opacity:0;
-letter-spacing:3px;
+font-size:0.96vw;color:#444;
+margin-top:1.9vh;opacity:0;
+letter-spacing:0.16vw;
 font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
 }
 /* ===== 猫咪眼珠跟随 ===== */
@@ -75,7 +76,7 @@ pointer-events:none;
 .cat-wrap .cat-body{width:100%;height:100%;display:block;}
 .eye-socket{
 position:absolute;overflow:hidden;
-width:30px;height:30px;
+width:1.6vw;height:1.6vw;
 border-radius:50%;
 }
 .eye-ball{
@@ -83,11 +84,33 @@ position:absolute;display:block;
 transition:left 0.08s,top 0.08s;
 backface-visibility:hidden;
 }#welcomeTitle{
-position:absolute;top:60px;left:50%;transform:translateX(-50%);
-font-size:3.2rem;font-weight:900;letter-spacing:4px;z-index:70;
+position:absolute;top:12vh;left:50%;transform:translateX(-50%);
+font-size:7vw;font-weight:900;letter-spacing:0.3vw;z-index:70;white-space:nowrap;
 background:linear-gradient(to right,#000,#666);
 -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 font-family:'Segoe UI','PingFang SC',sans-serif;
+}
+/* ===== 滚动横幅 ===== */
+#scrollBanner{
+display:none;position:fixed;top:38vh;left:0;width:100%;
+overflow:hidden;z-index:65;pointer-events:none;
+font-size:3.3vw;color:#1a1a1a;font-weight:700;
+font-family:'Segoe UI','PingFang SC',sans-serif;
+}
+.marquee-track{
+display:flex;width:fit-content;
+animation:marqueeScroll 30s linear infinite;
+animation-play-state:paused;
+}
+.marquee-track span{
+display:flex;align-items:center;white-space:nowrap;
+}
+.marquee-track i{
+font-size:0.8em;color:#ffd700;margin:0 0.8vw;
+}
+@keyframes marqueeScroll{
+0%{transform:translateX(-50%);}
+100%{transform:translateX(0);}
 }
 </style>
 </head>
@@ -123,6 +146,10 @@ playsinline webkit-playsinline muted preload="auto"></video>
 <div id="subTitle">继续按 Start 或点击页面任意区域，跳转至第二页产品介绍页面</div>
 </div>
 
+<div id="scrollBanner">
+<div class="marquee-track"></div>
+</div>
+
 <script>
 (function(){
 var btn=document.getElementById('actionBtn');
@@ -132,6 +159,7 @@ var titleContainer=document.getElementById('titleContainer');
 var mainTitle=document.getElementById('mainTitle');
 var subTitle=document.getElementById('subTitle');
 var welcomeTitle=document.getElementById('welcomeTitle');
+var scrollBanner=document.getElementById('scrollBanner');
 
 var state={started:false,bubbleDone:false,titleReady:false};
 
@@ -154,6 +182,7 @@ btn.addEventListener('click',function(e){
 welcomeTitle.style.display='none';
 e.stopPropagation();
 if(state.titleReady){
+scrollBanner.style.display='none';
 window.location.replace('page2.html');
 return;
 }
@@ -172,20 +201,20 @@ state.bubbleDone=true;
 var vRect=dogVideo.getBoundingClientRect();
 var noseX=vRect.left+vRect.width*0.5;
 var noseY=vRect.top+vRect.height*0.18;
-var bw=240,bh=240;
+var bw=window.innerWidth*0.25,bh=window.innerWidth*0.25;
 bubble.style.display='block';
 bubble.style.left=(noseX-bw/2)+'px';
 bubble.style.top=(noseY-bh/2)+'px';
 
 waitGSAP(function(){
 gsap.set(bubble,{scale:1,opacity:0,rotation:0,y:0});
-var targetY=window.innerHeight*0.15;
+var targetY=window.innerHeight*0.05;
 var deltaY=targetY-(noseY-bh/2);
 gsap.to(bubble,{
 y:deltaY,opacity:1,duration:2,ease:'power2.out',
 onComplete:function(){
 gsap.to(bubble,{
-y:deltaY+14,duration:2,
+y:deltaY+window.innerHeight*0.013,duration:2,
 repeat:-1,yoyo:true,ease:'sine.inOut'
 });
 }
@@ -216,6 +245,14 @@ showTitle();
 // ===== 标题淡入 =====
 function showTitle(){
 titleContainer.style.display='block';
+scrollBanner.style.display='block';
+var track=document.querySelector('.marquee-track');
+track.innerHTML='';
+var span=document.createElement('span');
+span.innerHTML='welcome our users <i class="bi bi-star-fill"></i>  ';
+var target=scrollBanner.offsetWidth*2.5;
+while(track.scrollWidth<target){track.appendChild(span.cloneNode(true));}
+track.style.animationPlayState='running';
 waitGSAP(function(){
 gsap.to(mainTitle,{
 opacity:1,y:0,duration:1.2,ease:'power3.out',
@@ -232,6 +269,7 @@ onComplete:function(){state.titleReady=true;}
 // ===== 标题出现后跳转 =====
 document.addEventListener('click',function(e){
 if(state.titleReady){
+scrollBanner.style.display='none';
 window.location.replace('page2.html');
 }
 });
@@ -239,13 +277,13 @@ window.location.replace('page2.html');
 // ===== 猫咪眼珠跟随 =====
 var s1Wrap=document.getElementById('s1Wrap');
 var s2Wrap=document.getElementById('s2Wrap');
-var MOVE_R=10;
+var MOVE_R=Math.min(window.innerWidth,window.innerHeight)*0.01;
 var catReady=false;
 var catH,cw;
 
 function initCat(){
 var vh=window.innerHeight;
-catH=Math.min(vh*0.25,160)*2;
+catH=Math.min(vh*0.25,vh*0.15)*2;
 cw=1080*catH/1063;
 var s2Scale=0.9;
 s1Wrap.style.height=catH+'px';
@@ -259,29 +297,29 @@ catReady=true;
 
 function positionCats(){
 var vR=dogVideo.getBoundingClientRect();
-var gap=Math.max(6,window.innerWidth*0.01);
-var s1Off=40;
-var catDown1=36;
-var s2Off=120;
-var catDown2=40;
+var gap=Math.max(window.innerWidth*0.003,window.innerWidth*0.01);
+var s1Off=window.innerWidth*0.021;
+var catDown1=window.innerHeight*0.033;
+var s2Off=window.innerWidth*0.075;
+var catDown2=window.innerHeight*0.037;
 s1Wrap.style.bottom='-'+catDown1+'px';
 s2Wrap.style.bottom='-'+catDown2+'px';
 var l1=vR.left-cw-gap-s1Off;
 var l2=vR.right+gap+s2Off;
 var s2w=cw*0.9;
-if(l1<4)l1=4;
-if(l2+s2w>window.innerWidth-4)l2=window.innerWidth-s2w-4;
+if(l1<window.innerWidth*0.002)l1=window.innerWidth*0.002;
+if(l2+s2w>window.innerWidth-window.innerWidth*0.002)l2=window.innerWidth-s2w-window.innerWidth*0.002;
 s1Wrap.style.left=l1+'px';
 s2Wrap.style.left=l2+'px';
 }
 
-// s1: d1=左眼 pX=0.43|d2=右眼 pX=0.57  拉开间距, Y保持0.48
-// s2: c1=左眼 pX=0.43|c2=右眼 pX=0.57  Y上移至0.44  拉开间距
+// s1: d1=左眼 pX=0.44|d2=右眼 pX=0.58  拉开间距, Y保持0.48
+// s2: c1=左眼 pX=0.44|c2=右眼 pX=0.58  Y上移至0.44  拉开间距
 var EYE_LAYOUT={
-s1L:{pX:0.43,pY:0.48,sk:'s1LEye',ball:'s1L'},
-s1R:{pX:0.57,pY:0.48,sk:'s1REye',ball:'s1R'},
-s2L:{pX:0.43,pY:0.44,sk:'s2LEye',ball:'s2L'},
-s2R:{pX:0.57,pY:0.44,sk:'s2REye',ball:'s2R'}
+s1L:{pX:0.44,pY:0.48,sk:'s1LEye',ball:'s1L'},
+s1R:{pX:0.58,pY:0.48,sk:'s1REye',ball:'s1R'},
+s2L:{pX:0.44,pY:0.44,sk:'s2LEye',ball:'s2L'},
+s2R:{pX:0.58,pY:0.44,sk:'s2REye',ball:'s2R'}
 };
 
 function setupEyeSockets(){
@@ -296,15 +334,15 @@ cfg.socket=sk;
 var cs=k.indexOf('s1')===0?1:s2Scale;
 var sx=cw*cfg.pX*cs;
 var sy=catH*cfg.pY*cs;
-sk.style.left=(sx-15)+'px';
-sk.style.top=(sy-15)+'px';
+sk.style.left=(sx - window.innerWidth*0.008)+'px';
+sk.style.top=(sy - window.innerWidth*0.008)+'px';
 var es=k.indexOf('s1')===0?0.5:0.6;
 var bw=cw/1.5*es;
 var bh=catH/1.5*es;
 ball.style.width=bw+'px';
 ball.style.height=bh+'px';
-cfg.ix=-(bw*0.5-15);
-cfg.iy=-(bh*0.5-15);
+cfg.ix=-(bw*0.5 - window.innerWidth*0.008);
+cfg.iy=-(bh*0.5 - window.innerWidth*0.008);
 ball.style.left=cfg.ix+'px';
 ball.style.top=cfg.iy+'px';
 });
@@ -339,7 +377,7 @@ tryInit();
 
 window.addEventListener('resize',function(){
 if(!catReady)return;
-catH=Math.min(window.innerHeight*0.25,160)*2;
+catH=Math.min(window.innerHeight*0.25,window.innerHeight*0.15)*2;
 cw=1080*catH/1063;
 var s2Scale=0.9;
 s1Wrap.style.height=catH+'px';
